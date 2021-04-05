@@ -101,7 +101,7 @@ id4238_doc_df %>%
 
 ```
 
-### Saint Thomas Hospital
+### Community Saint Thomas Hospital
 
 ```{r}
 id4233_doc_data <-read_csv('../data/id4233_doc_count.csv') 
@@ -179,19 +179,18 @@ com3_merge_df %>%
   theme(plot.title = element_text(hjust = 0.5)) +
   facet_wrap(~communityId)
 ```
-
+### Use a log function since the communities numbers are different
 
 ```{r different settings}
 
 facet_1 <- com3_merge_df %>%
   ggplot(aes(fill=count)) +
-  geom_sf(color=NA) + #set 
-  #coord_sf(crs=)
+  geom_sf(color=NA) + 
   scale_fill_gradientn(colours = c("grey80", "cyan", "magenta"), 
                        values = c(0,0.001,1),
                        breaks = c(10, 25, 100, 400),
                        labels = c(10, 25, 100, 400),
-                       trans = 'log1p') + 
+                       trans = 'log1p') + #log
   coord_sf(datum = NA) +
   labs(fill= 'Number of \nreferrals',
       title = '                  Number of Referrals for three main communities by zipcodes') +
@@ -205,13 +204,12 @@ facet_1
 
 facet_2 <- com3_merge_df %>%
   ggplot(aes(fill=count)) +
-  geom_sf(color="grey50") + #set 
-  #coord_sf(crs=)
+  geom_sf(color="grey50") + 
   scale_fill_gradientn(colours = c("white", "cyan", "magenta"), 
                        values = c(0,0.001,1),
                        breaks = c(10, 25, 100, 400),
                        labels = c(10, 25, 100, 400),
-                       trans = 'log1p') + 
+                       trans = 'log1p') + #log
   coord_sf(datum = NA) +
   labs(fill= 'Number of \nreferrals') +
   ggtitle("Number of Referrals by ZIP code to Three Main Communities") +
@@ -229,13 +227,3 @@ ggsave("facet_2.png", width = 8, height = 4, dpi = 700)
 ```{r}
 api_create(facet_2, filename = "community_louvain_map")
 ```
-
-
-##Here are some articles & resources for using ggplotly in R with shapefiles
-https://stackoverflow.com/questions/17060232/choropleth-map-with-r-using-shp-file
-
-https://stackoverflow.com/questions/43003525/choropleth-maps-using-plotly-in-r
-
-https://stackoverflow.com/questions/16220812/how-do-i-change-the-na-color-from-gray-to-white-in-a-ggplot-choropleth-map 
-
-
